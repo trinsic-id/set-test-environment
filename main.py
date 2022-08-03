@@ -13,7 +13,6 @@ def get_known_environment(env_name: str) -> Tuple[str, str, str]:
     return known_environments[env_name]
 
 
-
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument(

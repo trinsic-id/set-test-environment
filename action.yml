@@ -1,0 +1,42 @@
+name: 'Set Test Environment'
+description: 'Set Test Environment Variables for Trinsic SDK - consolidate multiple possible inputs'
+inputs:
+  serverEndpoint:
+    description: 'server endpoint to use - take first none null'
+    required: true
+    default: 'prod.trinsic.cloud'
+  serverPort:
+    description: 'server port to use - take first none null'
+    required: true
+    default: 443
+  useTls:
+    description: 'use Tls security - take first none null'
+    required: true
+    default: true
+  knownEnvironment:
+    description: 'Known Trinsic Environment: dev, staging, prod'
+    required: false
+    default: ''
+outputs:
+  serverEndpoint:
+    description: "Chosen server endpoint"
+    value: "${{ steps.pickvalidvalues.outputs.serverEndpoint }}"
+  serverPort:
+    description: "Chosen server port"
+    value: "${{ steps.pickvalidvalues.outputs.serverPort }}"
+  useTls:
+    description: "Chosen server tls flag"
+    value: "${{ steps.pickvalidvalues.outputs.useTls }}"
+runs:
+  using: "composite"
+  steps:
+    - name: Set up Python 3.9
+      uses: actions/setup-python@v4
+      with:
+        python-version: 3.9
+    - id: pickvalidvalues
+      name: Pick Valid Values
+      run: |
+        pip install -r ${{ github.action_path }}/requirements.txt
+        python ${{ github.action_path }}/main.py
+      shell: pwsh

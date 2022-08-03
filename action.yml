@@ -37,6 +37,9 @@ runs:
     - id: pickvalidvalues
       name: Pick Valid Values
       run: |
-        pip install -r ${{ github.action_path }}/requirements.txt
-        python ${{ github.action_path }}/main.py
+        python ${{ github.action_path }}/main.py `
+          --serverEndpoint="${{ inputs.serverEndpoint }}" `
+          --serverPort="${{ inputs.serverPort }}" `
+          --useTls="${{ inputs.useTls }}" `
+          --knownEnvironment="${{ inputs.knownEnvironment }}"
       shell: pwsh
